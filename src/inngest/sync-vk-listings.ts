@@ -54,12 +54,12 @@ type VKItem = z.infer<typeof vkItemSchema>;
 
 export const syncMgnKvartiraListings = inngest.createFunction(
   { id: "sync-mgn-kvartira-listings" },
-  { cron: "TZ=Asia/Yekaterinburg */5 * * * *" }, // every 5 minutes
+  { cron: "TZ=Asia/Yekaterinburg */2 * * * *" }, // every 2 minutes
   async ({ step }) => {
     const domain = "mgn.kvartira";
 
     const response = await step.fetch(
-      `https://api.vk.com/method/wall.get?v=5.199&domain=${domain}&count=25`,
+      `https://api.vk.com/method/wall.get?v=5.199&domain=${domain}&count=5`,
       {
         headers: {
           Authorization: `Bearer ${process.env.VK_ACCESS_TOKEN}`,
@@ -153,12 +153,12 @@ export const syncMgnKvartiraListings = inngest.createFunction(
 
 export const syncMgnRealtyListings = inngest.createFunction(
   { id: "sync-mgn-realty-listings" },
-  { cron: "TZ=Asia/Yekaterinburg */5 * * * *" }, // every 5 minutes
+  { cron: "TZ=Asia/Yekaterinburg */2 * * * *" }, // every 2 minutes
   async ({ step }) => {
     const domain = "mgn.realty";
 
     const response = await step.fetch(
-      `https://api.vk.com/method/wall.get?v=5.199&domain=${domain}&count=25`,
+      `https://api.vk.com/method/wall.get?v=5.199&domain=${domain}&count=5`,
       {
         headers: {
           Authorization: `Bearer ${process.env.VK_ACCESS_TOKEN}`,
