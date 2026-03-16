@@ -58,16 +58,17 @@ export const syncMgnKvartiraListings = inngest.createFunction(
   async ({ step }) => {
     const domain = "mgn.kvartira";
 
-    const response = await step.fetch(
-      `https://api.vk.com/method/wall.get?v=5.199&domain=${domain}&count=5`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.VK_ACCESS_TOKEN}`,
-        },
-      }
-    );
+    const items = await step.run("fetch-items", async () => {
+      const response = await fetch(
+        `https://api.vk.com/method/wall.get?v=5.199&domain=${domain}&count=5`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${process.env.VK_ACCESS_TOKEN}`,
+          },
+        }
+      );
 
-    const items = await step.run("parse-response", async () => {
       const data = await response.json();
 
       const items: VKItem[] = [];
@@ -157,16 +158,17 @@ export const syncMgnRealtyListings = inngest.createFunction(
   async ({ step }) => {
     const domain = "mgn.realty";
 
-    const response = await step.fetch(
-      `https://api.vk.com/method/wall.get?v=5.199&domain=${domain}&count=5`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.VK_ACCESS_TOKEN}`,
-        },
-      }
-    );
+    const items = await step.run("fetch-items", async () => {
+      const response = await fetch(
+        `https://api.vk.com/method/wall.get?v=5.199&domain=${domain}&count=5`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${process.env.VK_ACCESS_TOKEN}`,
+          },
+        }
+      );
 
-    const items = await step.run("parse-response", async () => {
       const data = await response.json();
 
       const items: VKItem[] = [];
