@@ -148,14 +148,17 @@ export const processListing = inngest.createFunction(
       return response.output;
     });
 
-    const geoResponse = await step.fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?key=${
-        process.env.GOOGLE_MAPS_API_KEY
-      }&address=${encodeURIComponent(rentalInfo.address + ", Магнитогорск")}&components=country:RU&language=ru`
-    );
+    const geocodeResult = await step.run("geocode-address", async () => {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?key=${
+          process.env.GOOGLE_MAPS_API_KEY
+        }&address=${encodeURIComponent(rentalInfo.address + ", Магнитогорск")}&components=country:RU&language=ru`,
+        {
+          method: "GET",
+        }
+      );
 
-    const geocodeResult = await step.run("parse-geo-response", async () => {
-      const data = await geoResponse.json();
+      const data = await response.json();
       const result = geocodeResponseSchema.safeParse(data);
       if (!result.success) return null;
       return result.data.results[0];
